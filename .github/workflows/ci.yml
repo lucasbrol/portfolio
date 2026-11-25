@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      # Testes rodam sem chave de API e sem depender do GitHub.
+      EMBEDDINGS_PROVIDER: fake
+      SKIP_GITHUB: "1"
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Gerar índice de teste
+        run: npm run index
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Testes unitários (Vitest)
+        run: npm test
+      - name: Build
+        run: npm run build
+      - name: Instalar navegadores
+        run: npx playwright install --with-deps chromium
+      - name: Testes E2E (Playwright)
+        run: npm run test:e2e
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7

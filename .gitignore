@@ -1,0 +1,12 @@
+node_modules/
+.next/
+out/
+.env
+.env*.local
+*.tsbuildinfo
+next-env.d.ts
+test-results/
+playwright-report/
+.vercel/
+# índice gerado a cada build (o repos.json fica versionado como cache)
+data/index.json
