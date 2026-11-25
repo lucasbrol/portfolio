@@ -89,8 +89,9 @@ test.describe("Chat (interface)", () => {
     });
   });
 
-  test("detecta inglês pelo navegador quando não há preferência salva", async ({ browser }) => {
-    const ctx = await browser.newContext({ locale: "en-US" });
+  test("detecta inglês pelo navegador quando não há preferência salva", async ({ browser, baseURL }) => {
+    // Contextos criados à mão não herdam o `use` do playwright.config.ts: o baseURL precisa ir explícito.
+    const ctx = await browser.newContext({ locale: "en-US", baseURL });
     const page = await ctx.newPage();
     await page.goto("/");
     await expect(page.getByTestId("lang-en")).toHaveAttribute("aria-pressed", "true");
