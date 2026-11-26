@@ -99,7 +99,8 @@ async function main() {
   const docs = [...knowledge, repoListDoc(repos), ...repoDocs];
   const chunks = docs.flatMap(chunkMarkdown);
 
-  const embedder = embedderFor(provider);
+  // No build dá para esperar: se o Gemini limitar, tenta de novo (até ~5 min).
+  const embedder = embedderFor(provider, { retries: 5 });
   const vectors = await embedder.embed(
     chunks.map((c) => c.text),
     "RETRIEVAL_DOCUMENT",

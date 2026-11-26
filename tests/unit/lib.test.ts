@@ -3,7 +3,7 @@ import { chunkMarkdown, extractUrls, splitLong } from "@/lib/chunk";
 import { cleanReadme, repoToDoc } from "@/lib/github";
 import { rateLimit } from "@/lib/rate-limit";
 import { cosine, topK } from "@/lib/similarity";
-import { tokenize } from "@/lib/embeddings";
+import { geminiEmbedder, rateLimitDelayMs, tokenize } from "@/lib/embeddings";
 
 describe("chunkMarkdown", () => {
   const md = `# Sobre o Lucas
@@ -101,5 +101,39 @@ describe("rateLimit", () => {
     for (let i = 0; i < 3; i++) expect(rateLimit(key, t0 + i, 3)).toBe(true);
     expect(rateLimit(key, t0 + 10, 3)).toBe(false);
     expect(rateLimit(key, t0 + 61_000, 3)).toBe(true);
+  });
+});
+
+describe("embeddings do Gemini: limite do plano gratuito (429)", () => {
+  const ok = (n: number) => ({ embeddings: Array.from({ length: n }, () => ({ values: [1, 0] })) });
+  const limitError = new Error('{"error":{"code":429,"status":"RESOURCE_EXHAUSTED","message":"Please retry in 12.5s."}}');
+
+  it("reconhece o erro de limite e lê o tempo de espera sugerido", () => {
+    expect(rateLimitDelayMs(limitError)).toBe(13_500);
+    expect(rateLimitDelayMs(new Error("429 Too Many Requests"))).toBe(61_000);
+    expect(rateLimitDelayMs(new Error("400 INVALID_ARGUMENT"))).toBeNull();
+  });
+
+  it("no build, espera e tenta de novo até dar certo", async () => {
+    let calls = 0;
+    const waits: number[] = [];
+    const client = {
+      embedContent: async ({ contents }: { contents: string[] }) => {
+        calls++;
+        if (calls === 2) throw limitError; // segundo lote estoura o limite uma vez
+        return ok(contents.length);
+      },
+    };
+    const e = geminiEmbedder("x", { client: client as never, retries: 3, sleep: async (ms) => void waits.push(ms) });
+    const vecs = await e.embed(Array.from({ length: 113 }, (_, i) => `t${i}`), "RETRIEVAL_DOCUMENT");
+    expect(vecs).toHaveLength(113);
+    expect(waits).toEqual([13_500]);
+    expect(calls).toBe(4); // 3 lotes + 1 nova tentativa
+  });
+
+  it("sem novas tentativas (chat), o erro sobe na hora", async () => {
+    const client = { embedContent: async () => { throw limitError; } };
+    const e = geminiEmbedder("x", { client: client as never });
+    await expect(e.embed(["a"], "RETRIEVAL_QUERY")).rejects.toThrow("429");
   });
 });

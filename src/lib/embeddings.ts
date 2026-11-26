@@ -11,23 +11,61 @@ export interface Embedder {
   embed(texts: string[], task: EmbedTask): Promise<number[][]>;
 }
 
+type EmbedClient = Pick<GoogleGenAI["models"], "embedContent">;
+
+export interface EmbedOptions {
+  /**
+   * Quantas vezes tentar de novo quando o Gemini responde "limite excedido"
+   * (HTTP 429). Só o build usa: no chat, esperar um minuto travaria a resposta.
+   */
+  retries?: number;
+  /** Para testes: cliente e espera simulados. */
+  client?: EmbedClient;
+  sleep?: (ms: number) => Promise<void>;
+}
+
+const BATCH = 50;
+
+/** Se o erro for de limite (429), quanto esperar antes de tentar de novo; senão null. */
+export function rateLimitDelayMs(err: unknown): number | null {
+  const msg = err instanceof Error ? err.message : String(err);
+  if (!/\b429\b|RESOURCE_EXHAUSTED|rate limit|quota/i.test(msg)) return null;
+  const m = msg.match(/retry in ([\d.]+)\s*s/i) ?? msg.match(/"retryDelay"\s*:\s*"([\d.]+)s"/);
+  return Math.ceil((m ? Number(m[1]) : 60) * 1000) + 1000;
+}
+
 /** Embeddings reais via Gemini. Requer GEMINI_API_KEY. */
-export function geminiEmbedder(apiKey = process.env.GEMINI_API_KEY): Embedder {
-  if (!apiKey) throw new Error("GEMINI_API_KEY não definida");
-  const ai = new GoogleGenAI({ apiKey });
+export function geminiEmbedder(apiKey = process.env.GEMINI_API_KEY, opts: EmbedOptions = {}): Embedder {
+  const client: EmbedClient = opts.client ?? (() => {
+    if (!apiKey) throw new Error("GEMINI_API_KEY não definida");
+    return new GoogleGenAI({ apiKey }).models;
+  })();
+  const retries = opts.retries ?? 0;
+  const sleep = opts.sleep ?? ((ms: number) => new Promise<void>((r) => setTimeout(r, ms)));
   return {
     provider: "gemini",
     model: GEMINI_EMBED_MODEL,
     async embed(texts, task) {
       const out: number[][] = [];
-      // Lotes pequenos para respeitar os limites do plano gratuito.
-      for (let i = 0; i < texts.length; i += 50) {
-        const batch = texts.slice(i, i + 50);
-        const res = await ai.models.embedContent({
-          model: GEMINI_EMBED_MODEL,
-          contents: batch,
-          config: { taskType: task, outputDimensionality: EMBED_DIMENSIONS },
-        });
+      // Lotes pequenos; o plano gratuito limita quantos textos por minuto.
+      for (let i = 0; i < texts.length; i += BATCH) {
+        const batch = texts.slice(i, i + BATCH);
+        let res;
+        for (let attempt = 0; ; attempt++) {
+          try {
+            res = await client.embedContent({
+              model: GEMINI_EMBED_MODEL,
+              contents: batch,
+              config: { taskType: task, outputDimensionality: EMBED_DIMENSIONS },
+            });
+            break;
+          } catch (err) {
+            const wait = rateLimitDelayMs(err);
+            if (wait === null || attempt >= retries) throw err;
+            console.warn(`[embeddings] limite do Gemini atingido; nova tentativa em ${Math.round(wait / 1000)}s (${attempt + 1}/${retries})`);
+            await sleep(wait);
+          }
+        }
         const embs = res.embeddings ?? [];
         if (embs.length !== batch.length) throw new Error("Resposta de embeddings incompleta");
         out.push(...embs.map((e) => e.values ?? []));
@@ -74,6 +112,6 @@ export function fakeEmbedder(dimensions = 256): Embedder {
   };
 }
 
-export function embedderFor(provider: "gemini" | "fake"): Embedder {
-  return provider === "fake" ? fakeEmbedder() : geminiEmbedder();
+export function embedderFor(provider: "gemini" | "fake", opts?: EmbedOptions): Embedder {
+  return provider === "fake" ? fakeEmbedder() : geminiEmbedder(undefined, opts);
 }
