@@ -1,27 +1,52 @@
 # Projetos do Lucas
 
-Os repositórios próprios do Lucas no GitHub são sincronizados automaticamente e descritos em outros trechos desta base. Abaixo estão os projetos com contexto adicional.
+Os repositórios públicos do Lucas no GitHub também são sincronizados automaticamente nesta base. Abaixo está o contexto de cada projeto: do que se trata, como funciona, as tecnologias e o papel do Lucas.
 
-## Projeto prático de QA e testes de software (EventHub QA)
-Projeto prático de QA em que Lucas criou e executou cenários e casos de teste para uma aplicação web; documentou e gerenciou bugs no Jira com passos de reprodução, resultado esperado e resultado obtido; aplicou particionamento de equivalência e análise de valor limite; fez testes de API com Postman validando requisições, respostas e dados JSON; usou SQL para validar dados; e desenvolveu testes automatizados com Playwright integrados a Git/GitHub e CI/CD. O repositório no GitHub se chama Eventhub-qa-project: https://github.com/lucasbrol/Eventhub-qa-project
+## ParkFinder (TCC) — do que se trata
+O ParkFinder é o Trabalho de Conclusão de Curso (TCC) do Lucas em Sistemas de Informação na UFV, orientado pelo Prof. Guilherme Mendonça Freire. É um aplicativo mobile que mostra ao motorista a chance de encontrar vaga de estacionamento em uma região antes de ele chegar lá. A ideia é de crowdsensing participativo: os próprios motoristas alimentam os dados. O estudo de caso é a cidade de Ouro Branco (MG), dividida em regiões como Centro, Pioneiros, Primeiro de Maio, Siderurgia e Luzia Augusta. O projeto está em desenvolvimento (a defesa está prevista para 2027) e o repositório é privado enquanto o TCC não termina, por isso não há link público.
 
-## ParkFinder (TCC)
-Projeto de TCC do Lucas para ajudar motoristas a encontrar vagas de estacionamento usando crowdsensing e imagens de satélite. Tecnologias: Python, FastAPI, APIs, banco de dados e integração com mapas. O projeto ainda está em desenvolvimento.
+## ParkFinder (TCC) — como funciona
+1. Depois do login, o app pergunta "para onde você vai?" e o motorista escolhe o destino no mapa ou por busca de endereço.
+2. A API descobre em qual região fica o destino com uma operação espacial do PostGIS (ST_Contains) e calcula a disponibilidade em tempo real.
+3. O índice de disponibilidade é: respostas "sim" / (respostas "sim" + "não") na última hora. Com 70% ou mais a chance é alta, entre 40% e 70% é média, abaixo de 40% é baixa, e com menos de 5 registros aparece "informação insuficiente". Os limites são configuráveis.
+4. O mapa também mostra os estacionamentos da região, incluindo os pagos.
+5. Ao chegar, o motorista responde se conseguiu estacionar, e essa resposta alimenta o índice da região.
 
-## Sistema de e-commerce
-Aplicação de comércio eletrônico desenvolvida com Python, Django, banco de dados e HTML.
+## ParkFinder (TCC) — tecnologias
+Back-end: Python, FastAPI assíncrono, Pydantic, SQLAlchemy 2 com asyncpg e GeoAlchemy2, Shapely, Alembic (migrações), autenticação com JWT e bcrypt, documentação automática com Swagger/OpenAPI. Banco: PostgreSQL com PostGIS e índices espaciais GiST. Aplicativo: React Native com Expo e TypeScript, mapas com react-native-maps e OpenStreetMap, localização e notificações. Testes: unitários e de integração com Pytest contra um banco PostGIS real. Infraestrutura: Docker e Docker Compose. A arquitetura do back-end é em camadas (rotas, serviços, repositórios, modelos e schemas) e segue a LGPD, coletando o mínimo de dados.
+
+## AlphaPulse (trabalho em grupo) — do que se trata
+O AlphaPulse é um trabalho em grupo da disciplina SIN 323 – Inteligência Artificial (UFV, 2026), feito pelo Lucas com colegas, incluindo o Otavio Pierin, e orientado pela Profa. Larissa Ferreira Rodrigues Moreira. É um monitor de sentimento de notícias financeiras do Ibovespa: ele coleta manchetes reais, mede o sentimento de cada uma com um modelo de linguagem especializado em finanças e testa se esse sentimento ajuda a prever o próximo pregão. É um projeto acadêmico e não é recomendação de investimento. Repositório: https://github.com/otavio-pierin/AlphaPulse
+
+## AlphaPulse — como funciona e resultados
+O grupo fez o fine-tuning completo do FinBERT-PT-BR (cerca de 110 milhões de parâmetros) com notícias rotuladas por especialistas. A acurácia na classificação de sentimento subiu de 77,1% para 88,4% (±1,1%, validação cruzada em 5 divisões). Para a previsão de mercado, foram comparados LSTM, Bi-LSTM, CNN, Transformer, MLP, SVM e regressão logística, com fusão precoce e tardia (early/late fusion) e stacking. A avaliação usou validação walk-forward em 630 pregões, com p-valor e cuidados contra vazamento de dados. Nenhuma das 17 configurações superou o acaso com significância estatística, um resultado coerente com a hipótese de mercados eficientes e reportado com honestidade. Tecnologias: Python, PyTorch, Hugging Face Transformers, scikit-learn, pandas, NumPy, SciPy, Matplotlib, yfinance, Google News RSS, SQLite e uma aplicação web em Streamlit.
+
+## Leukemia Classification (trabalho em grupo) — do que se trata
+Trabalho em grupo da disciplina SIN 393 – Introdução à Visão Computacional (UFV, 2026), com o Prof. João Fernando Mari, feito pelo Lucas, Otavio Pierin e Breno Pierin. O projeto classifica imagens de microscópio de células únicas como leucêmicas (Leucemia Linfoblástica Aguda de células B, B-ALL) ou normais, para apoiar o diagnóstico. Usa o dataset C-NMC 2019 do Kaggle, com cerca de 10 mil imagens de treino. Foi feito em Jupyter Notebook. Repositório: https://github.com/otavio-pierin/SIN393-Leukemia-Classification
+
+## Leukemia Classification — como funciona e resultados
+O grupo comparou três redes convolucionais com transfer learning do ImageNet em PyTorch: ResNet50, DenseNet121 e EfficientNet-B3, todas com o mesmo protocolo. Usaram aumento de dados pensado para o domínio (rotação, espelhamento, variação de cor e desfoque leve), perda ponderada por classe por causa do desbalanceamento, precisão mista e early stopping. O conjunto de teste tem pacientes que não aparecem no treino, o que evita vazamento de dados por paciente. A comparação usou F1-macro, ROC-AUC, matriz de confusão e o teste de McNemar. O melhor modelo foi a DenseNet121, com F1-macro de 0,80, ROC-AUC de 0,89 e acurácia de cerca de 83%. Tecnologias: Python, PyTorch, torchvision, scikit-learn, pandas, NumPy, Matplotlib, Jupyter e Kaggle.
+
+## EventHub QA (projeto de QA)
+Projeto prático de QA em que o Lucas simulou o fluxo real de testes de uma plataforma de eventos e venda de ingressos: análise de requisitos, cenários e casos de teste, execução, reporte de bugs com passos de reprodução, resultado esperado e resultado obtido, severidade e prioridade, reteste e gestão do fluxo no Jira. Aplicou testes funcionais, negativos, de valor limite e de autorização. Os testes são manuais e documentados em Markdown. Testes de API com Postman, validação com SQL, automação com Playwright e CI/CD com GitHub Actions estão planejados como próximas etapas. Repositório: https://github.com/lucasbrol/Eventhub-qa-project
+
+## LabDeProg — e-commerce de roupas (trabalho em grupo)
+Aplicação web de e-commerce de roupas feita em grupo com Django: cadastro e login de usuários, catálogo de produtos e carrinho de compras (adicionar, alterar quantidade, remover e calcular o total). Tem testes automatizados com Pytest e roda com Docker e Docker Compose usando MySQL. Também foi usada para praticar QA, com cenários e casos de teste. Tecnologias: Python, Django, MySQL, SQLite, HTML, CSS, JavaScript, Pytest e Docker. Repositório: https://github.com/lucasbrol/labdeprog
+
+## Agenda UFV — sistema de eventos (trabalho em grupo)
+Trabalho final da disciplina SIN 493 – Introdução à Programação Web (UFV), feito pelo Lucas com Otavio e Breno Pierin. É um sistema web de agendamento de eventos: cadastro e login, sessão de usuário, criação e listagem de eventos com busca, agendamento e cancelamento. Foi feito sem frameworks nem banco de dados: PHP puro, JavaScript puro, HTML5, CSS3 responsivo e dados em JSON. Repositório: https://github.com/lucasbrol/Sistema-de-eventos---SIN-493
+
+## Jogos em Python com Pygame
+O Lucas fez dois jogos em Python com a biblioteca Pygame para praticar programação orientada a objetos. O Caipihead é o mais complexo, com fases diferentes, menus, sprites, sons e registro de tempos de speed run, inspirado no jogo Cuphead. O outro é um jogo da cobrinha (Snake). Repositório do Caipihead: https://github.com/lucasbrol/Jogo-Caipihead-em-Python-
+
+## Jogo da cobrinha
+Jogo da cobrinha (Snake) feito pelo Lucas em Python com Pygame, com foco em orientação a objetos. Repositório: https://github.com/lucasbrol/Jogo-Cobrinha-em-Python-
 
 ## Algoritmos de ordenação em C
-Projetos de implementação de algoritmos de ordenação em C: Insertion Sort, Bubble Sort, Selection Sort, Shell Sort e Merge Sort.
-
-## Jogos com Python e Pygame
-Lucas desenvolveu jogos simples usando Python e a biblioteca Pygame.
-
-## Leukemia Classification (trabalho em grupo)
-Trabalho em grupo da disciplina SIN 393 da UFV, desenvolvido em conjunto por Lucas e colegas, incluindo Otavio Pierin, sobre classificação de leucemia. Feito em Jupyter Notebook. O repositório está na conta do Otavio: https://github.com/otavio-pierin/SIN393-Leukemia-Classification
-
-## AlphaPulse (trabalho em grupo)
-Trabalho em grupo desenvolvido em conjunto por Lucas e colegas, incluindo Otavio Pierin. É uma ferramenta em Python para prever o preço de fechamento de ativos do mercado de ações. O repositório está na conta do Otavio: https://github.com/otavio-pierin/AlphaPulse
+Na graduação, o Lucas implementou algoritmos de ordenação em C: Insertion Sort, Bubble Sort, Selection Sort, Shell Sort e Merge Sort.
 
 ## Este portfólio
-Este site é um projeto do Lucas: um portfólio em Next.js com um assistente que usa RAG (Retrieval-Augmented Generation) com o Gemini para responder apenas com base em informações verificadas sobre ele. O projeto tem testes automatizados com Vitest e Playwright, incluindo testes que garantem que o assistente não invente respostas. Repositório: https://github.com/lucasbrol/portfolio
+Este site é um projeto do Lucas: um portfólio em Next.js e TypeScript com um assistente que usa RAG (Retrieval-Augmented Generation) com o Gemini para responder apenas com base em informações verificadas sobre ele. Tem testes automatizados com Vitest e Playwright, CI com GitHub Actions e uma avaliação que confere se o assistente não inventa respostas. Repositório: https://github.com/lucasbrol/portfolio
+
+## Perfil do GitHub
+O README do perfil do Lucas no GitHub mostra um cartão com todas as tecnologias que ele já usou, indicando em qual projeto cada uma foi usada, além de um destaque animado do ParkFinder. Perfil: https://github.com/lucasbrol

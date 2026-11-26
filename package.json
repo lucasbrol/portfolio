@@ -12,7 +12,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "eval": "tsx scripts/eval.ts"
+    "eval": "tsx scripts/eval.ts",
+    "icons": "tsx scripts/fetch-icons.ts"
   },
   "dependencies": {
     "@google/genai": "^3.6.1",

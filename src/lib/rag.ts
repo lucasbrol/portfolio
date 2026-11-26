@@ -37,7 +37,9 @@ REGRAS OBRIGATÓRIAS:
 6. Tom: cordial e profissional, sem ser formal demais. Respostas curtas (até ~120 palavras), podendo usar listas curtas.
 7. Responda no idioma da pergunta do visitante (português ou inglês).
 8. Em "sources", liste os ids dos trechos do contexto que você usou. Se o visitante quiser acessar um projeto, inclua o link do repositório que aparece no contexto — nunca crie um link que não esteja no contexto.
-9. Para contato, propostas ou entrevistas, indique o e-mail e o LinkedIn do Lucas que estão no contexto.`;
+9. Para contato, propostas ou entrevistas, indique o e-mail e o LinkedIn do Lucas que estão no contexto.
+10. Tecnologias: diga que o Lucas já usou ou trabalhou com a ferramenta e, se o contexto disser, em qual projeto. Nunca afirme que ele domina, é especialista ou tem certo nível em uma ferramenta; se perguntarem o nível de domínio, explique que a lista mostra ferramentas usadas em projetos e sugira perguntar diretamente a ele.
+11. Ao explicar um projeto, diga do que se trata, como funciona, as tecnologias e os resultados que estiverem no contexto, e deixe claro quando é um trabalho em grupo.`;
 
 export function buildContext(hits: ScoredChunk[]): string {
   return hits

@@ -2,10 +2,11 @@
  * Testes de "qualidade dos dados": a base de conhecimento é o que impede
  * a IA de inventar — então ela também é testada.
  */
-import { readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { chunkMarkdown, extractUrls } from "@/lib/chunk";
+import { TECH_GROUPS } from "@/lib/tech";
 
 const dir = path.join(process.cwd(), "knowledge");
 const files = readdirSync(dir).filter((f) => f.endsWith(".md"));
@@ -25,7 +26,7 @@ describe("base de conhecimento", () => {
   });
 
   it("contém os fatos essenciais", () => {
-    for (const fact of ["Ouro Branco", "Universidade Federal de Viçosa", "InfoAlto", "lucasbrasil7@outlook.com", "github.com/lucasbrol"]) {
+    for (const fact of ["Ouro Branco", "Universidade Federal de Viçosa", "InfoAlto", "lucasbrasil7@outlook.com", "github.com/lucasbrol", "instagram.com/lucasbr_ol", "viajar", "ParkFinder", "AlphaPulse"]) {
       expect(all).toContain(fact);
     }
   });
@@ -40,5 +41,38 @@ describe("base de conhecimento", () => {
     const links = extractUrls(all).filter((u) => u.includes("github.com"));
     expect(links.length).toBeGreaterThan(0);
     for (const l of links) expect(l).toMatch(/^https:\/\/github\.com\/[\w-]+(\/[\w.-]+)?$/);
+  });
+
+  it("deixa claro que tecnologias usadas não significam domínio", () => {
+    expect(all).toMatch(/usou não é o mesmo que domina/i);
+    expect(all).not.toMatch(/(domina|especialista em|expert em) (Python|Django|FastAPI|PyTorch|React)/i);
+  });
+
+  it("descreve o ParkFinder atual (crowdsensing, sem imagens de satélite)", () => {
+    expect(all).toContain("crowdsensing");
+    expect(all.toLowerCase()).not.toContain("satélite");
+  });
+
+  it("cada seção de projeto cita no máximo um link (vira o link oficial do trecho)", () => {
+    const projects = readFileSync(path.join(dir, "06-projetos.md"), "utf8");
+    for (const section of projects.split(/\n## /).slice(1)) {
+      expect(extractUrls(section).length, section.split("\n")[0]).toBeLessThanOrEqual(1);
+    }
+  });
+});
+
+describe("tecnologias do site", () => {
+  const items = TECH_GROUPS.flatMap((g) => g.items);
+
+  it("ids únicos e logo salvo em public/tech", () => {
+    expect(new Set(items.map((t) => t.id)).size).toBe(items.length);
+    for (const t of items) expect(existsSync(path.join(process.cwd(), "public", "tech", `${t.id}.svg`)), t.id).toBe(true);
+  });
+
+  it("toda tecnologia do site também está na base do assistente", () => {
+    for (const t of items) {
+      const name = t.name.split(" + ")[0];
+      expect(all, t.name).toContain(name);
+    }
   });
 });

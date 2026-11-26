@@ -159,10 +159,26 @@ h1 span {
 .org { color: var(--accent); font-weight: 500; margin: 2px 0 6px; font-size: 15px; }
 .timeline p:last-child { margin: 0; color: var(--ink-2); }
 
-.skills { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
-.skills h3 { font: 600 13px var(--mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 0 0 14px; }
-.skills ul { list-style: none; margin: 0; padding: 0; }
-.skills li { padding: 7px 0; border-bottom: 1px dashed var(--line); font-size: 16px; }
+.tech-groups { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px 40px; }
+.tech-group h3, .practices h3 { font: 600 13px var(--mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 0 0 12px; }
+.chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  position: relative; display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 12px 7px 9px; font-size: 15px; background: #fffdf8;
+  border: 1px solid var(--line); border-radius: 999px; cursor: default; transition: border-color 0.15s, transform 0.15s;
+}
+.chip img { width: 20px; height: 20px; object-fit: contain; }
+.chip:hover, .chip:focus-visible { border-color: var(--ink); transform: translateY(-1px); }
+.chip-where {
+  position: absolute; left: 50%; bottom: calc(100% + 8px); transform: translateX(-50%);
+  background: var(--ink); color: var(--paper); font: 500 12px var(--mono); white-space: nowrap;
+  padding: 6px 10px; border-radius: 8px; opacity: 0; pointer-events: none; transition: opacity 0.15s; z-index: 2;
+}
+.chip:hover .chip-where, .chip:focus .chip-where { opacity: 1; }
+.practices { margin-top: 36px; }
+.practices ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 18px; }
+.practices li { font-size: 15px; color: var(--ink-2); }
+.practices li::before { content: "▸ "; color: var(--accent); }
 .langs { margin: 28px 0 0; font: 500 14px var(--mono); color: var(--muted); }
 
 .repos { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
@@ -200,7 +216,7 @@ h1 span {
 @media (max-width: 960px) {
   .hero { grid-template-columns: 1fr; gap: 40px; padding-top: 32px; }
   .chat { min-height: 480px; }
-  .skills { grid-template-columns: repeat(2, 1fr); }
+  .tech-groups { grid-template-columns: 1fr; }
 }
 @media (max-width: 640px) {
   body { font-size: 16px; }
@@ -210,6 +226,6 @@ h1 span {
   .hero-name img { width: 96px; height: 96px; }
   .chat { padding: 18px; border-radius: 16px; }
   .timeline li { grid-template-columns: 1fr; gap: 4px; }
-  .skills { grid-template-columns: 1fr; }
+  .chip-where { white-space: normal; width: max-content; max-width: 220px; }
   .block { padding: 56px 0; }
 }

@@ -57,4 +57,5 @@ Sem `GEMINI_API_KEY`, o índice é montado com embeddings "fake" (só para desen
 
 - **Sobre mim:** edite os arquivos em `knowledge/` e faça push. O deploy refaz a base.
 - **Projetos:** basta criar/atualizar repositórios públicos no GitHub com um bom README.
+- **Tecnologias:** edite `src/lib/tech.ts` (nome, logo e onde foi usada) e rode `npm run icons` para baixar o logo para `public/tech/`. Mantenha `knowledge/07-tecnologias.md` igual, para o assistente também saber. Um teste garante que as duas listas batem.
 - **Esconder um repositório:** variável `GITHUB_EXCLUDE=nome1,nome2` na Vercel.

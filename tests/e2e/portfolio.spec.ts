@@ -34,6 +34,28 @@ test.describe("Página", () => {
     await page.reload();
     await expect(page.getByTestId("lang-en")).toHaveAttribute("aria-pressed", "true");
   });
+
+  test("mostra as tecnologias com logo, onde foram usadas e o aviso de que usar não é dominar", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator("#habilidades")).toContainText("não quer dizer que domino todas");
+    const chip = page.getByTestId("tech").locator(".chip", { hasText: "FastAPI" });
+    await expect(chip).toHaveAttribute("title", "Usado em: ParkFinder");
+    const img = chip.locator("img");
+    await img.scrollIntoViewIfNeeded();
+    await expect(img).toBeVisible();
+    await expect.poll(() => img.evaluate((el) => (el as HTMLImageElement).complete)).toBe(true);
+    const res = await page.request.get((await img.getAttribute("src"))!);
+    expect(res.status()).toBe(200);
+    expect(res.headers()["content-type"]).toContain("svg");
+  });
+
+  test("tem link para o Instagram", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator("#contato").getByRole("link", { name: /lucasbr_ol/ })).toHaveAttribute(
+      "href",
+      "https://www.instagram.com/lucasbr_ol/",
+    );
+  });
 });
 
 test.describe("Chat (interface)", () => {

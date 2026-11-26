@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { LINKS, dict } from "@/lib/i18n";
+import { TECH_GROUPS } from "@/lib/tech";
 import type { Lang, RepoSummary } from "@/lib/types";
 import { Chat } from "./Chat";
 
@@ -83,6 +84,9 @@ export function Portfolio({ repos }: { repos: RepoSummary[] }) {
               <a href={LINKS.linkedin} target="_blank" rel="noopener noreferrer">
                 LinkedIn ↗
               </a>
+              <a href={LINKS.instagram} target="_blank" rel="noopener noreferrer">
+                Instagram ↗
+              </a>
             </div>
           </div>
           <Chat t={t.chat} lang={lang} />
@@ -124,17 +128,37 @@ export function Portfolio({ repos }: { repos: RepoSummary[] }) {
             <span>03</span>
             {t.skills.title}
           </h2>
-          <div className="skills">
-            {t.skills.groups.map((g) => (
-              <div key={g.name}>
-                <h3>{g.name}</h3>
-                <ul>
-                  {g.items.map((s) => (
-                    <li key={s}>{s}</li>
-                  ))}
+          <p className="block-sub">{t.skills.note}</p>
+          <div className="tech-groups" data-testid="tech">
+            {TECH_GROUPS.map((g) => (
+              <div key={g.id} className="tech-group">
+                <h3>{g.name[lang]}</h3>
+                <ul className="chips">
+                  {g.items.map((tech) => {
+                    const where = tech.usedIn.length
+                      ? `${t.skills.usedIn}: ${tech.usedIn.join(", ")}`
+                      : t.skills.usedInNone;
+                    return (
+                      <li key={tech.id} className="chip" title={where} tabIndex={0} aria-label={`${tech.name} — ${where}`}>
+                        <img src={`/tech/${tech.id}.svg`} alt="" width={20} height={20} loading="lazy" />
+                        <span>{tech.name}</span>
+                        <span className="chip-where" aria-hidden>
+                          {where}
+                        </span>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             ))}
+          </div>
+          <div className="practices">
+            <h3>{t.skills.practicesTitle}</h3>
+            <ul>
+              {t.skills.practices.map((s) => (
+                <li key={s}>{s}</li>
+              ))}
+            </ul>
           </div>
           <p className="langs">{t.skills.languages}</p>
         </section>
@@ -175,6 +199,9 @@ export function Portfolio({ repos }: { repos: RepoSummary[] }) {
             </a>
             <a href={LINKS.github} target="_blank" rel="noopener noreferrer">
               github.com/lucasbrol ↗
+            </a>
+            <a href={LINKS.instagram} target="_blank" rel="noopener noreferrer">
+              @lucasbr_ol ↗
             </a>
           </div>
         </section>

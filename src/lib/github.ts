@@ -7,7 +7,7 @@ export const GITHUB_USER = process.env.GITHUB_USER ?? "lucasbrol";
 export const COLLABORATIONS: RepoSummary[] = [
   {
     name: "SIN393-Leukemia-Classification",
-    description: "Trabalho em grupo (SIN 393 – UFV): classificação de leucemia.",
+    description: "Trabalho em grupo (SIN 393 – Visão Computacional, UFV): CNNs em PyTorch (ResNet50, DenseNet121, EfficientNet-B3) que classificam células leucêmicas em imagens de microscópio.",
     url: "https://github.com/otavio-pierin/SIN393-Leukemia-Classification",
     language: "Jupyter Notebook",
     topics: [],
@@ -18,7 +18,7 @@ export const COLLABORATIONS: RepoSummary[] = [
   },
   {
     name: "AlphaPulse",
-    description: "Trabalho em grupo: previsão do preço de fechamento de ativos da bolsa.",
+    description: "Trabalho em grupo (SIN 323 – IA, UFV): sentimento de notícias do Ibovespa com FinBERT-PT-BR ajustado (88,4% de acurácia) e teste rigoroso de previsão do mercado.",
     url: "https://github.com/otavio-pierin/AlphaPulse",
     language: "Python",
     topics: [],

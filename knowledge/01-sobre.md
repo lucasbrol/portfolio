@@ -10,7 +10,13 @@ Lucas mora em Ouro Branco, Minas Gerais (MG), Brasil.
 Lucas se descreve como determinado e sonhador. Nos currículos, ele se apresenta com perfil analítico, curioso e orientado à resolução de problemas, com facilidade para aprender novas tecnologias e interesse em trabalhar de forma colaborativa. Também se descreve como proativo, organizado, motivado por desafios e com boa comunicação verbal e escrita. Ele mora sozinho e cuida da própria rotina, o que, segundo ele, desenvolveu autogestão e adaptabilidade.
 
 ## Hobbies e interesses pessoais
-Lucas ama filmes, discussões filosóficas, conversas com os amigos, futebol e games. É torcedor do Flamengo. No GitHub, ele brinca que um dos seus interesses é "quebrar coisas de propósito para achar bugs".
+Lucas ama viajar. Também ama filmes, discussões filosóficas, conversas com os amigos, futebol e games. É torcedor do Flamengo. No GitHub, ele brinca que um dos seus interesses é "quebrar coisas de propósito para achar bugs".
+
+## Viagens
+O Lucas ama viajar e conhecer lugares novos.
+
+## Instagram
+O Instagram do Lucas é @lucasbr_ol: https://www.instagram.com/lucasbr_ol/
 
 ## Futebol
 Lucas joga futebol desde os 4 anos de idade e participa de torneios universitários de futsal, treinando e competindo regularmente. Ele também já ensinou fundamentos de futebol para crianças, de forma voluntária/informal, o que segundo ele desenvolveu paciência, comunicação clara e responsabilidade.
