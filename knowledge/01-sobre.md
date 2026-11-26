@@ -13,7 +13,10 @@ Lucas se descreve como determinado e sonhador. Nos currículos, ele se apresenta
 Lucas ama viajar. Também ama filmes, discussões filosóficas, conversas com os amigos, futebol e games. É torcedor do Flamengo. No GitHub, ele brinca que um dos seus interesses é "quebrar coisas de propósito para achar bugs".
 
 ## Viagens
-O Lucas ama viajar e conhecer lugares novos.
+O Lucas ama viajar e conhecer lugares novos. Ele já conheceu vários estados do Brasil e, fora do país, já esteve na Argentina, no Uruguai, no Paraguai, na França, na Espanha e em Portugal. Ele quer conhecer muitos lugares mais.
+
+## Filmes favoritos
+O Lucas ama filmes e diz que tem muitos favoritos. Entre eles estão Seven: Os Sete Crimes Capitais, Interestelar e Odisseia.
 
 ## Instagram
 O Instagram do Lucas é @lucasbr_ol: https://www.instagram.com/lucasbr_ol/

@@ -71,7 +71,7 @@ const pt = {
   },
   contact: {
     title: "Vamos conversar?",
-    body: "Estou buscando minha primeira oportunidade em tecnologia — QA é prioridade, mas estou aberto a outras áreas.",
+    body: "Estou buscando minha primeira oportunidade em tecnologia — QA é prioridade, mas estou aberto a outras áreas. Posso começar já, com cerca de 40 horas semanais, em home office (a partir de julho de 2027, qualquer modalidade).",
   },
   footer: "Feito com Next.js, Gemini e testes automatizados.",
 };
@@ -140,7 +140,7 @@ const en: typeof pt = {
   },
   contact: {
     title: "Let's talk?",
-    body: "I'm looking for my first opportunity in tech — QA is my priority, but I'm open to other areas.",
+    body: "I'm looking for my first opportunity in tech — QA is my priority, but I'm open to other areas. I can start right away, about 40 hours a week, remote (from July 2027 on, any work arrangement).",
   },
   footer: "Built with Next.js, Gemini and automated tests.",
 };

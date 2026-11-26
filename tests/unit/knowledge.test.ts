@@ -26,7 +26,7 @@ describe("base de conhecimento", () => {
   });
 
   it("contém os fatos essenciais", () => {
-    for (const fact of ["Ouro Branco", "Universidade Federal de Viçosa", "InfoAlto", "lucasbrasil7@outlook.com", "github.com/lucasbrol", "instagram.com/lucasbr_ol", "viajar", "ParkFinder", "AlphaPulse"]) {
+    for (const fact of ["Ouro Branco", "Universidade Federal de Viçosa", "InfoAlto", "lucasbrasil7@outlook.com", "github.com/lucasbrol", "instagram.com/lucasbr_ol", "viajar", "ParkFinder", "AlphaPulse", "40 horas semanais", "julho de 2027", "Interestelar"]) {
       expect(all).toContain(fact);
     }
   });
