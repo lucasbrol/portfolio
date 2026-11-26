@@ -29,6 +29,9 @@ export const COLLABORATIONS: RepoSummary[] = [
   },
 ];
 
+/** Repositórios da conta do Lucas que são trabalhos em grupo (ganham a etiqueta no site). */
+const GROUP_REPOS = new Set(["sin142-ridefleet"]);
+
 /** Repositórios que não devem aparecer no site nem no chat. */
 const EXCLUDE = new Set(
   (process.env.GITHUB_EXCLUDE ?? "").split(",").map((s) => s.trim().toLowerCase()).filter(Boolean),
@@ -76,6 +79,7 @@ export async function fetchRepos(user = GITHUB_USER, f: Fetch = fetch): Promise<
       updatedAt: r.pushed_at,
       homepage: r.homepage || null,
       owner: r.owner.login,
+      ...(GROUP_REPOS.has(r.name.toLowerCase()) ? { collaboration: true } : {}),
     }));
 }
 

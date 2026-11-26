@@ -32,6 +32,7 @@ const PO = "Portfolio";
 const EH = "EventHub QA";
 const LB = "LabDeProg";
 const AG = "Agenda UFV";
+const RF = "RideFleet";
 
 export const TECH_GROUPS: TechGroup[] = [
   {
@@ -41,9 +42,9 @@ export const TECH_GROUPS: TechGroup[] = [
       { id: "jira", name: "Jira", src: DEVICON("jira"), usedIn: [EH] },
       { id: "postman", name: "Postman", src: DEVICON("postman"), usedIn: [] },
       { id: "playwright", name: "Playwright", src: DEVICON("playwright"), usedIn: [PO] },
-      { id: "pytest", name: "Pytest", src: DEVICON("pytest"), usedIn: [PF, LB] },
+      { id: "pytest", name: "Pytest", src: DEVICON("pytest"), usedIn: [PF, LB, RF] },
       { id: "vitest", name: "Vitest", src: DEVICON("vitest"), usedIn: [PO] },
-      { id: "swagger", name: "Swagger", src: DEVICON("swagger"), usedIn: [PF] },
+      { id: "swagger", name: "Swagger", src: DEVICON("swagger"), usedIn: [PF, RF] },
     ],
   },
   {
@@ -66,24 +67,25 @@ export const TECH_GROUPS: TechGroup[] = [
     id: "backend",
     name: { pt: "Back-end & Dados", en: "Back-end & Data" },
     items: [
-      { id: "fastapi", name: "FastAPI", src: DEVICON("fastapi"), usedIn: [PF] },
-      { id: "pydantic", name: "Pydantic", src: SIMPLE("pydantic"), usedIn: [PF] },
-      { id: "sqlalchemy", name: "SQLAlchemy", src: SIMPLE("sqlalchemy"), usedIn: [PF] },
-      { id: "postgresql", name: "PostgreSQL + PostGIS", src: DEVICON("postgresql"), usedIn: [PF] },
+      { id: "fastapi", name: "FastAPI", src: DEVICON("fastapi"), usedIn: [PF, RF] },
+      { id: "pydantic", name: "Pydantic", src: SIMPLE("pydantic"), usedIn: [PF, RF] },
+      { id: "sqlalchemy", name: "SQLAlchemy", src: SIMPLE("sqlalchemy"), usedIn: [PF, RF] },
+      { id: "postgresql", name: "PostgreSQL + PostGIS", src: DEVICON("postgresql"), usedIn: [PF, RF] },
       { id: "jwt", name: "JWT", src: SIMPLE("jsonwebtokens"), usedIn: [PF] },
-      { id: "sqlite", name: "SQLite", src: DEVICON("sqlite"), usedIn: [AP, LB] },
+      { id: "sqlite", name: "SQLite", src: DEVICON("sqlite"), usedIn: [AP, LB, RF] },
       { id: "mysql", name: "MySQL", src: SIMPLE("mysql"), usedIn: [LB] },
       { id: "django", name: "Django", src: SIMPLE("django"), usedIn: [LB] },
       { id: "nodejs", name: "Node.js", src: DEVICON("nodejs"), usedIn: [] },
+      { id: "redis", name: "Redis", src: DEVICON("redis"), usedIn: [RF] },
     ],
   },
   {
     id: "languages",
     name: { pt: "Linguagens", en: "Languages" },
     items: [
-      { id: "python", name: "Python", src: DEVICON("python"), usedIn: [PF, AP, LK, LB] },
+      { id: "python", name: "Python", src: DEVICON("python"), usedIn: [PF, AP, LK, LB, RF] },
       { id: "typescript", name: "TypeScript", src: DEVICON("typescript"), usedIn: [PF, PO] },
-      { id: "javascript", name: "JavaScript", src: DEVICON("javascript"), usedIn: [AG, LB] },
+      { id: "javascript", name: "JavaScript", src: DEVICON("javascript"), usedIn: [AG, LB, RF] },
       { id: "c", name: "C", src: DEVICON("c"), usedIn: [] },
       { id: "php", name: "PHP", src: DEVICON("php"), usedIn: [AG] },
       { id: "html5", name: "HTML5", src: DEVICON("html5"), usedIn: [AG, LB] },
@@ -97,15 +99,18 @@ export const TECH_GROUPS: TechGroup[] = [
       { id: "reactnative", name: "React Native", src: DEVICON("react"), usedIn: [PF] },
       { id: "expo", name: "Expo", src: SIMPLE("expo"), usedIn: [PF] },
       { id: "openstreetmap", name: "OpenStreetMap", src: SIMPLE("openstreetmap"), usedIn: [PF] },
-      { id: "react", name: "React", src: DEVICON("react"), usedIn: [PO] },
+      { id: "react", name: "React", src: DEVICON("react"), usedIn: [PO, RF] },
       { id: "nextjs", name: "Next.js", src: SIMPLE("nextdotjs"), usedIn: [PO] },
     ],
   },
   {
     id: "devops",
-    name: { pt: "DevOps & Ferramentas", en: "DevOps & Tools" },
+    name: { pt: "DevOps & Observabilidade", en: "DevOps & Observability" },
     items: [
-      { id: "docker", name: "Docker", src: DEVICON("docker"), usedIn: [PF, LB] },
+      { id: "docker", name: "Docker", src: DEVICON("docker"), usedIn: [PF, LB, RF] },
+      { id: "nginx", name: "Nginx", src: DEVICON("nginx"), usedIn: [RF] },
+      { id: "prometheus", name: "Prometheus", src: DEVICON("prometheus"), usedIn: [RF] },
+      { id: "grafana", name: "Grafana", src: DEVICON("grafana"), usedIn: [RF] },
       { id: "git", name: "Git", src: DEVICON("git"), usedIn: [] },
       { id: "github", name: "GitHub", src: SIMPLE("github"), usedIn: [] },
       { id: "githubactions", name: "GitHub Actions", src: SIMPLE("githubactions"), usedIn: [PO] },

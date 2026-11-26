@@ -1,5 +1,22 @@
 [
   {
+    "name": "SIN142-RideFleet",
+    "description": "Trabalho em grupo (SIN 142 – Sistemas Distribuídos, UFV): serviço de transporte que delega e recebe corridas por leilão em uma federação, com Redis Streams, relógio de Lamport, saga, Nginx e Prometheus/Grafana.",
+    "url": "https://github.com/lucasbrol/SIN142-RideFleet",
+    "language": "Python",
+    "topics": [
+      "distributed-systems",
+      "fastapi",
+      "redis",
+      "docker",
+      "prometheus"
+    ],
+    "updatedAt": "2026-11-26T00:00:00Z",
+    "homepage": null,
+    "owner": "lucasbrol",
+    "collaboration": true
+  },
+  {
     "name": "Eventhub-qa-project",
     "description": "Projeto de QA: testes manuais, design de casos de teste, reporte de bugs, reteste e gestão de fluxo no Jira.",
     "url": "https://github.com/lucasbrol/Eventhub-qa-project",
