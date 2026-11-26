@@ -39,7 +39,7 @@ test.describe("Página", () => {
     await page.goto("/");
     await expect(page.locator("#habilidades")).toContainText("não quer dizer que domino todas");
     const chip = page.getByTestId("tech").locator(".chip", { hasText: "FastAPI" });
-    await expect(chip).toHaveAttribute("title", "Usado em: ParkFinder");
+    await expect(chip).toHaveAttribute("title", "Usado em: ParkFinder, RideFleet");
     const img = chip.locator("img");
     await img.scrollIntoViewIfNeeded();
     await expect(img).toBeVisible();
